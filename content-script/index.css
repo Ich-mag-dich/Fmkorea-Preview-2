@@ -1,9 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.hidden {
+  display: none;
+}
 
-@layer base {
-    h1 {
-        @apply text-slate-700 text-xl
-    }
+#extension-root {
+  z-index: 999;
 }
