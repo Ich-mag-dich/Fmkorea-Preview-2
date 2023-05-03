@@ -12,6 +12,6 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
       - name: Install
-        run: npm i pnpm && pnpm install --frozen-lockfile
+        run: npm install
       - name: Run TSC
         run: npx tsc
