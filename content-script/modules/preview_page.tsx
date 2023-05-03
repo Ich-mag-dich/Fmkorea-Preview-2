@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef, useRef } from "react";
 import { useState } from "react";
 import { Mydiv } from "./test_page_style";
 import ReactDOM from "react-dom/client";
@@ -46,14 +46,30 @@ const PreviewPage = (props: iPost) => {
     throw new Error("Function not implemented.");
   }
   let winY = window.scrollY;
-  console.log(winY);
+  // console.log(winY);
+  let elemArray: any = Array.from(rd_vody.children);
+  let div1 = document.createElement("div");
+  elemArray.forEach((elem: any) => {
+    // console.log(elem.innerHTML);
+  });
+  // console.log(elemArray);
   return (
     <Mydiv style={{ top: `${winY - 80}px` }}>
-      <div className="flex flex-col gap-4 p-4 shadow-sm bg-gradient-to-r from-purple-500 to-pink-500 w-96 rounded-md">
-        <HTML2JSX
+      <div
+        style={{ maxWidth: "800px" }}
+        className="flex flex-col gap-4 p-4 shadow-sm bg-gradient-to-r from-purple-500 to-pink-500 w-96 rounded-md"
+      >
+        {/* <HTML2JSX
           innerHTML={rd_vody.innerHTML}
           propErrorHandler={getANewPropName}
-        />
+        /> */}
+        {elemArray.forEach(element => {
+          if (element.innerHTML !== undefined) {
+            console.log(element.innerHTML);
+            return <p>{element.innerHTML.toString()}</p>;
+          }
+        })}
+        );
       </div>
     </Mydiv>
   );

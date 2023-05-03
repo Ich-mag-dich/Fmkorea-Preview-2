@@ -7,14 +7,15 @@ const Mydiv = styled.div`
   margin-left: 20%;
   margin-right: auto;
   margin-top: 100px;
-  width: 700px;
+  width: 900px;
   max-width: 700px;
   img {
-    max-width: 700px;
+    max-width: 600px;
     height: auto;
+    margin: 0 auto;
   }
   video {
-    max-width: 700px;
+    max-width: 600px;
     height: auto;
   }
   background-color: #eaddff;

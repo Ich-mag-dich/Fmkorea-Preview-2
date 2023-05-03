@@ -10,18 +10,23 @@ const classNames = ["hotdeal_var8", "notice_pop0", "title"];
 var checkState = false;
 var postHref = "";
 var exTitle = "";
+const throwError = () => {
+  throw new Error("Something Broken");
+};
 
 const App = () => {
+  const [error, setError] = useState(false);
   const [visl, setVisual] = useState<string>();
+  const throwErrorInRender = () => setError(true);
   // const [postHref, setPostHref] = useState<string>("");
   const [post, setPost] = useState<any>();
   if (visl === undefined) {
     setVisual("hidden");
   }
   const chgVisl = () => {
-    console.log(`${visl} ${checkState}`);
+    // console.log(`${visl} ${checkState}`);
     if (visl === "hidden" && checkState == true) {
-      console.log("chgVisl");
+      // console.log("chgVisl");
       setVisual("block");
     } else if (visl === "block" && checkState == false) {
       setVisual("hidden");
@@ -32,9 +37,9 @@ const App = () => {
   const handleClick = async (target: any) => {
     try {
       if (checkState == false) {
-        console.log("handleClick");
+        // console.log("handleClick");
         exTitle = document.title;
-        console.log(exTitle);
+        // console.log(exTitle);
         checkState = true;
         if (target.href !== undefined) {
           postHref = target.href;
@@ -81,7 +86,7 @@ const App = () => {
     checkState = false;
     chgVisl;
     setPost(undefined);
-    console.log(exTitle);
+    // console.log(exTitle);
     document.querySelector("title")!.innerText = exTitle;
     try {
       document.querySelector(".rounded-md")!.remove();
@@ -104,17 +109,17 @@ const App = () => {
   };
   useEffect(() => {
     document.addEventListener("contextmenu", function (e) {
-      e.preventDefault();
       if (checkState == true) {
-        console.log("");
+        // console.log("");
       } else {
+        e.preventDefault();
         if (e.target) {
           const target = e.target as HTMLElement;
           console.log(target);
           if (
             classNames.some(className => target.classList.contains(className))
           ) {
-            console.log("contextmenu 1");
+            // console.log("contextmenu 1");
             handleClick(target);
             // chgVisl();
           } else if (target.parentElement) {
@@ -122,7 +127,7 @@ const App = () => {
             if (
               classNames.some(className => parent.classList.contains(className))
             ) {
-              console.log("contextmenu 2");
+              // console.log("contextmenu 2");
               handleClick(target);
               // chgVisl();
             } else if (target.parentElement?.parentElement) {
@@ -132,7 +137,7 @@ const App = () => {
                   parent.classList.contains(className)
                 )
               ) {
-                console.log("contextmenu 3");
+                // console.log("contextmenu 3");
                 // chgVisl();
                 handleClick(target);
               } else {
@@ -146,19 +151,25 @@ const App = () => {
     document.addEventListener("click", function (e) {
       const target = e.target as HTMLElement;
       if (checkState == true) {
-        console.log("click", target);
+        // console.log("click", target);
       }
     });
   }, []);
-
-  return (
-    <div className={visl}>
-      {postHref !== "" && visl === "block" && post ? (
-        <PreviewPage post={post} postHref={postHref}></PreviewPage>
-      ) : (
-        <div>qweqwe</div>
-      )}
-    </div>
-  );
+  useEffect(() => {
+    if (error) throwError();
+  }, [error]);
+  try {
+    return (
+      <div className={visl}>
+        {postHref !== "" && visl === "block" && post ? (
+          <PreviewPage post={post} postHref={postHref}></PreviewPage>
+        ) : (
+          <div>qweqwe</div>
+        )}
+      </div>
+    );
+  } catch {
+    return <div></div>;
+  }
 };
 export default App;
