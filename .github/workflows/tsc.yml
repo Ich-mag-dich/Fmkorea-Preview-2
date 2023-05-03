@@ -1,4 +1,4 @@
-name: 'tsc'
+name: "tsc"
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -12,6 +12,6 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
       - name: Install
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Run TSC
         run: npx tsc
