@@ -27,7 +27,7 @@ const PreviewPage = (props: iPost) => {
   document.title = `${title.innerText}`;
   const add_history = () => {
     if (count == 0) {
-      history.pushState({ foo: "bar" }, `${title.innerText}`, `${postHref}`);
+      history.pushState(null, `${title.innerText}`, `${postHref}`);
       count++;
     }
   };
