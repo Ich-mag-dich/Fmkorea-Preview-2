@@ -17,10 +17,6 @@
   ],
   "permissions": ["activeTab"],
 
-  "background": {
-    "page": "background.html",
-    "persistent": false
-  },
   "icons": {
     "128": "logo128.png"
   }

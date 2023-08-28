@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Mydiv = styled.div`
+  overflow: scroll;
   position: absolute;
   left: 20px;
   z-index: 10;

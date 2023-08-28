@@ -37,7 +37,10 @@ const App = () => {
   const handleClick = async (target: any) => {
     try {
       if (checkState == false) {
+        (document.querySelector("#extension-root") as HTMLElement).style.top = `${window.scrollY - 80}px`;
+        document.querySelector("body")?.style.setProperty("overflow", "hidden");
         // console.log("handleClick");
+
         exTitle = document.title;
         // console.log(exTitle);
         checkState = true;
@@ -100,6 +103,7 @@ const App = () => {
       // esc키 눌렀을때
       if (checkState == true) {
         checkState = false;
+        document.querySelector("body")?.style.setProperty("overflow", "hidden scroll");
         // history.back();
         history.back();
         exit();
@@ -112,13 +116,13 @@ const App = () => {
       if (checkState == true) {
         // console.log("");
       } else {
-        e.preventDefault();
         if (e.target) {
           const target = e.target as HTMLElement;
           console.log(target);
           if (
             classNames.some(className => target.classList.contains(className))
           ) {
+            e.preventDefault();
             // console.log("contextmenu 1");
             handleClick(target);
             // chgVisl();
@@ -127,6 +131,7 @@ const App = () => {
             if (
               classNames.some(className => parent.classList.contains(className))
             ) {
+              e.preventDefault();
               // console.log("contextmenu 2");
               handleClick(target);
               // chgVisl();
@@ -137,6 +142,7 @@ const App = () => {
                   parent.classList.contains(className)
                 )
               ) {
+                e.preventDefault();
                 // console.log("contextmenu 3");
                 // chgVisl();
                 handleClick(target);
@@ -155,21 +161,23 @@ const App = () => {
       }
     });
   }, []);
+
+
   useEffect(() => {
     if (error) throwError();
   }, [error]);
   try {
     return (
-      <div className={visl}>
+      <div className={visl} style={{ marginBottom: "500px" }}>
         {postHref !== "" && visl === "block" && post ? (
           <PreviewPage post={post} postHref={postHref}></PreviewPage>
         ) : (
-          <div>qweqwe</div>
+          <div></div>
         )}
       </div>
     );
   } catch {
-    return <div></div>;
+    return <div className={visl}></div>;
   }
 };
 export default App;
