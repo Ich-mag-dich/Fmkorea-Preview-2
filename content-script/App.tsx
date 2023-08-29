@@ -13,6 +13,17 @@ const throwError = () => {
   throw new Error("Something Broken");
 };
 
+var count = 0;
+
+const add_history = (title1: any, postHref: any, title2: any) => {
+  if (count === 0) {
+    history.pushState(null, `${title1.innerText}`, `${postHref}`);
+    exTitle = document.title;
+    document.title = title2;
+    count++;
+  }
+};
+
 const App = () => {
   const [error, setError] = useState(false);
   const [visl, setVisual] = useState<string>();
@@ -40,8 +51,7 @@ const App = () => {
         document.querySelector("body")?.style.setProperty("overflow", "hidden");
         extension_root.style.visibility = "visible";
         extension_root.style.backgroundColor = "rgba(109, 109, 109, 0.5)";
-
-        exTitle = document.title;
+        console.log(target.innerText)
         checkState = true;
         if (target.href !== undefined) {
           postHref = target.href;
@@ -51,6 +61,7 @@ const App = () => {
           postHref = target.parentElement.href;
         }
         chgVisl();
+        add_history(target.innerText, postHref, target.innerText);
         setPost(await requestPost(postHref).then(res => res));
 
       }
@@ -72,6 +83,9 @@ const App = () => {
     if (checkState == false) {
       return;
     }
+    if (count !== 1) {
+      return;
+    }
 
     checkState = false;
     chgVisl;
@@ -86,6 +100,9 @@ const App = () => {
     extension_root.style.backgroundColor = "rgba(109, 109, 109, 0.0)";
     extension_root.style.visibility = "hidden";
     extension_root.style.top = `0px`;
+    document.title = exTitle;
+    count = 0;
+    history.back();
   };
 
   window.onkeydown = (event: { keyCode: number }) => {
