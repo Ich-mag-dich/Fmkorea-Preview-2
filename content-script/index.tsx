@@ -13,22 +13,27 @@ if (existingInstance) {
 
 const frame = document.createElement("div");
 // var winY = window.scrollY;
-frame.style.width = "auto";
-frame.style.maxWidth = "1200px";
+frame.style.width = "100VW"
+// frame.style.marginLeft = "calc(-50vw + 50%);" // center the frame
+// frame.style.maxWidth = "1200px";
 // frame.style.top = `${winY - 80}px`;
 frame.style.position = "absolute";
-frame.style.marginLeft = "21%";
-frame.style.marginRight = "21%";
+// frame.style.marginLeft = "21%";
+// frame.style.marginRight = "21%";
 frame.style.marginBottom = "100px";
 frame.id = "extension-root";
 frame.style.zIndex = "101";
 frame.style.visibility = "visible";
 frame.style.display = "block";
 frame.style.opacity = "0";
-frame.style.transition = "0.3s";
 frame.style.overflow = "scroll";
 frame.style.opacity = "1";
 frame.style.height = `1200px`;
+frame.style.visibility = "hidden";
+frame.style.top = "0px";
+// frame.onclick = (e) => {
+//   console.log(e.target);
+// }
 // frame.style.boxShadow = "rgba(109, 109, 109, 0.5) 0 0 0 9999px";
 
 // Make sure the element that you want to mount the app to has loaded. You can

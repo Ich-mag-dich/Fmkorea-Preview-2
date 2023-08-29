@@ -12,3 +12,31 @@
   width: auto;
   border-radius: 10px;
 }
+
+.member_plate {
+  color: rgb(38, 38, 38);
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.level {
+  width: 25px;
+  height: 25px;
+}
+
+.member_plate img {
+  vertical-align: middle;
+}
+
+div.side {
+  display: inline-block;
+}
+
+.fr {
+  font-size: 14px;
+}
+
+#extension-root {
+  -webkit-transition: background-color 1s;
+  transition: background-color 1s;
+}
