@@ -21,7 +21,7 @@
     "service_worker": "./background.global.js"
   },
   "icons": {
-    "128": "logo128.png"
+    "128": "icon.png"
   },
   "externally_connectable": {
     "matches": ["https://*.fmkorea.com/*"]
