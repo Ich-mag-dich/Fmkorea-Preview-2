@@ -3,29 +3,55 @@ import styled from "styled-components";
 import "../index.css";
 import { TitleDiv } from "./title_style";
 import { WirterDiv } from "./writer_style";
+import { get } from "http";
+import { createElement } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
+import { CommentDiv } from "./comment_style";
 
 
 interface iPost {
   post: any;
   postHref: string;
 }
+
+
+
 var count = 0;
 const PreviewPage = (props: iPost) => {
   const { post, postHref } = props;
+
   let winY = window.scrollY;
 
   let getHtml = document.createElement("html");
   getHtml.innerHTML = post;
   let rd_body = getHtml.querySelector(".xe_content")!;
   let writer_div = getHtml.querySelector(".member_plate")!;
+  let date_div = getHtml.querySelector("span.date.m_no")!;
+  let views_div = getHtml.querySelector("div.side.fr > span")!;
+  let commentDiv = document.createElement("div");
+  try {
+
+    commentDiv.innerHTML = getHtml.querySelector("ul.fdb_lst_ul ")!.innerHTML;
+  } catch {
+    commentDiv.innerHTML = `<div class="nocomment">
+      <h1>댓글이 없어요 ;ㅅ;</h1>
+    </div>`;
+
+  }
+
+
   rd_body.innerHTML = rd_body.innerHTML.replace(/<\!--.*?-->/g, "");
-  let title = getHtml.querySelector("title")!;
-  const add_history = () => {
-    if (count == 0) {
-      history.pushState(null, `${title.innerText}`, `${postHref}`);
-      count++;
-    }
-  };
+
+  let title = getHtml.querySelector("span.np_18px_span")!;
+
+  // const add_history = () => {
+  //   if (count == 0) {
+  //     history.pushState(null, `${title.innerText}`, `${postHref}`);
+  //     count++;
+  //   }
+  // };
 
   try {
     var beforeLoad = rd_body.querySelectorAll(".beforeLoad");
@@ -65,16 +91,23 @@ const PreviewPage = (props: iPost) => {
         className="bg-white rounded-md shadow-sm p-4"
       >
         <TitleDiv>
-          <p>{title.innerText.toString()}</p>
+          <p>{(title as HTMLElement).innerText.toString()}</p>
         </TitleDiv>
+        <div>
+        </div>
         <WirterDiv className="member_plate">
           <div dangerouslySetInnerHTML={{ __html: writer_div.innerHTML }} />
+          <div style={{ textAlign: "right" }} dangerouslySetInnerHTML={{ __html: date_div.innerHTML }} />
+          <div style={{ textAlign: "right" }} dangerouslySetInnerHTML={{ __html: views_div.innerHTML }} />
         </WirterDiv>
         <div
           style={{ marginLeft: "40px", marginRight: "40px", paddingBottom: "40px" }}
         >
           <div dangerouslySetInnerHTML={{ __html: rd_body.innerHTML }} />
         </div>
+        <CommentDiv>
+          <div dangerouslySetInnerHTML={{ __html: commentDiv.innerHTML }} />
+        </CommentDiv>
       </div>
     </div>
   );

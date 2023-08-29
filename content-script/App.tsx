@@ -21,6 +21,7 @@ const App = () => {
   if (visl === undefined) {
     setVisual("hidden");
   }
+
   const chgVisl = () => {
     if (visl === "hidden" && checkState == true) {
       setVisual("block");
@@ -30,6 +31,7 @@ const App = () => {
       setVisual("block");
     }
   };
+
   const handleClick = async (target: any) => {
     try {
       if (checkState == false) {
@@ -50,6 +52,7 @@ const App = () => {
         }
         chgVisl();
         setPost(await requestPost(postHref).then(res => res));
+
       }
     } catch {
     }
@@ -63,6 +66,7 @@ const App = () => {
     } catch {
     }
   };
+
   const exit = () => {
     console.log(checkState)
     if (checkState == false) {
@@ -92,6 +96,7 @@ const App = () => {
       }
     }
   };
+
   useEffect(() => {
     document.addEventListener("contextmenu", function (e) {
       if (checkState == true) {
@@ -128,6 +133,7 @@ const App = () => {
         }
       }
     });
+
     document.addEventListener("click", function (e) {
       const target = e.target as HTMLElement;
       if (checkState === true) {
@@ -142,11 +148,12 @@ const App = () => {
   useEffect(() => {
     if (error) throwError();
   }, [error]);
+
   try {
     return (
       <div className={visl} id={"frame"} style={{ marginBottom: "500px" }}>
         {postHref !== "" && visl === "block" && post ? (
-          <PreviewPage post={post} postHref={postHref}></PreviewPage>
+          <PreviewPage post={post} postHref={postHref} ></PreviewPage>
         ) : (
           <div></div>
         )}
@@ -156,4 +163,5 @@ const App = () => {
     return <div className={visl}></div>;
   }
 };
+
 export default App;

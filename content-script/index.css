@@ -33,10 +33,20 @@ div.side {
 }
 
 .fr {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 #extension-root {
   -webkit-transition: background-color 1s;
   transition: background-color 1s;
+}
+
+li.fdb_itm {
+  display: block;
+}
+
+.nocomment {
+  text-align: center;
+  font-size: 13px;
+  color: #454545;
 }
