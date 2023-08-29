@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { CommentDiv } from "./comment_style";
-
+import { VoteDiv } from "./vote_style";
 
 interface iPost {
   post: any;
@@ -18,7 +18,6 @@ interface iPost {
 
 
 
-var count = 0;
 const PreviewPage = (props: iPost) => {
   const { post, postHref } = props;
 
@@ -31,11 +30,18 @@ const PreviewPage = (props: iPost) => {
   let date_div = getHtml.querySelector("span.date.m_no")!;
   let views_div = getHtml.querySelector("div.side.fr > span")!;
   let commentDiv = document.createElement("div");
+  let voteDiv = document.createElement("div");
+  let readNum = (getHtml.querySelector("div.document_address > a") as HTMLAnchorElement).href.replace("https://www.fmkorea.com/", "");
   try {
+    readNum = readNum.replace("best/", "");
+  } catch { }
+  voteDiv.innerHTML = `<a id="voteup" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #7ca2db; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;" onclick="fm_vote(${readNum}, jQuery('#fm_vote${readNum}')[0]);" >추천</a>
+        <a id="votedown" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #ff8888; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;"onclick="fm_vote3(${readNum});" >비추천</a>`;
 
+  try {
     commentDiv.innerHTML = getHtml.querySelector("ul.fdb_lst_ul ")!.innerHTML;
   } catch {
-    commentDiv.innerHTML = `<div class="nocomment">
+    commentDiv.innerHTML = `<div class="nocomment" style="margin-top: 40px;">
       <h1>댓글이 없어요 ;ㅅ;</h1>
     </div>`;
 
@@ -101,10 +107,17 @@ const PreviewPage = (props: iPost) => {
           <div style={{ textAlign: "right" }} dangerouslySetInnerHTML={{ __html: views_div.innerHTML }} />
         </WirterDiv>
         <div
-          style={{ marginLeft: "40px", marginRight: "40px", paddingBottom: "40px" }}
+          style={{ marginLeft: "40px", marginRight: "40px", paddingBottom: "10px" }}
         >
-          <div dangerouslySetInnerHTML={{ __html: rd_body.innerHTML }} />
+          <div style={{ fontSize: "13px" }} dangerouslySetInnerHTML={{ __html: rd_body.innerHTML }} />
         </div>
+        <VoteDiv>
+          <div dangerouslySetInnerHTML={{ __html: voteDiv.innerHTML }} />
+        </VoteDiv>
+        <hr style={{
+          display: "block", width: "auto", margin: "40px", height: "2px", color: "#cccccc",
+          backgroundColor: "#cccccc", border: "none", marginBottom: "0px"
+        }} />
         <CommentDiv>
           <div dangerouslySetInnerHTML={{ __html: commentDiv.innerHTML }} />
         </CommentDiv>

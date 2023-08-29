@@ -4,6 +4,13 @@ import App from "./App";
 import "./index.css";
 import { Mydiv } from "./modules/test_page_style";
 
+try {
+  (document.querySelector("#gnb > div > ul > li > a") as HTMLAnchorElement).href = "https://www.fmkorea.com/best";
+} catch { }
+
+if (window.location.href === "https://www.fmkorea.com/") {
+  window.location.href = "https://www.fmkorea.com/best";
+}
 const pluginTagId = "extension-root";
 const existingInstance = document.getElementById("extension-root");
 if (existingInstance) {
@@ -42,6 +49,8 @@ frame.style.top = "0px";
 //
 // Also control when the content script is injected from the manifest.json:
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#run_time
+
+
 const body123 = document.querySelector("#header");
 if (body123) {
   body123.append(frame);
