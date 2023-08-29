@@ -8,6 +8,7 @@ const TitleDiv = styled.div`
     font-weight: bold;
     font-family: Noto Sans CJK KR, sans-serif;
     letter-spacing: -1.66px;
+    color: #434343;
 `;
 
 export { TitleDiv }

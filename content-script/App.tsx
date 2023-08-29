@@ -51,7 +51,7 @@ const App = () => {
         document.querySelector("body")?.style.setProperty("overflow", "hidden");
         extension_root.style.visibility = "visible";
         extension_root.style.backgroundColor = "rgba(109, 109, 109, 0.5)";
-        console.log(target.innerText)
+        // console.log(target.innerText)
         checkState = true;
         if (target.href !== undefined) {
           postHref = target.href;
@@ -79,7 +79,7 @@ const App = () => {
   };
 
   const exit = () => {
-    console.log(checkState)
+    // console.log(checkState)
     if (checkState == false) {
       return;
     }
@@ -120,7 +120,7 @@ const App = () => {
       } else {
         if (e.target) {
           const target = e.target as HTMLElement;
-          console.log(target);
+          // console.log(target);
           if (
             classNames.some(className => target.classList.contains(className))
           ) {

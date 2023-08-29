@@ -10,6 +10,7 @@ import axios from "axios";
 import { useState } from "react";
 import { CommentDiv } from "./comment_style";
 import { VoteDiv } from "./vote_style";
+import { VoteCountDiv } from "./vote_count_style";
 
 interface iPost {
   post: any;
@@ -32,6 +33,10 @@ const PreviewPage = (props: iPost) => {
   let commentDiv = document.createElement("div");
   let voteDiv = document.createElement("div");
   let readNum = (getHtml.querySelector("div.document_address > a") as HTMLAnchorElement).href.replace("https://www.fmkorea.com/", "");
+  let voteCount = "0"
+  try {
+    voteCount = (getHtml.querySelector(".new_voted_count") as HTMLElement).innerText;
+  } catch { }
   try {
     readNum = readNum.replace("best/", "");
   } catch { }
@@ -99,25 +104,31 @@ const PreviewPage = (props: iPost) => {
         <TitleDiv>
           <p>{(title as HTMLElement).innerText.toString()}</p>
         </TitleDiv>
-        <div>
-        </div>
+
         <WirterDiv className="member_plate">
           <div dangerouslySetInnerHTML={{ __html: writer_div.innerHTML }} />
           <div style={{ textAlign: "right" }} dangerouslySetInnerHTML={{ __html: date_div.innerHTML }} />
           <div style={{ textAlign: "right" }} dangerouslySetInnerHTML={{ __html: views_div.innerHTML }} />
         </WirterDiv>
+
         <div
           style={{ marginLeft: "40px", marginRight: "40px", paddingBottom: "10px" }}
         >
           <div style={{ fontSize: "13px" }} dangerouslySetInnerHTML={{ __html: rd_body.innerHTML }} />
         </div>
+
         <VoteDiv>
+          <VoteCountDiv>
+            <div style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold" }}>추천수: {voteCount}</div>
+          </VoteCountDiv>
           <div dangerouslySetInnerHTML={{ __html: voteDiv.innerHTML }} />
         </VoteDiv>
+
         <hr style={{
           display: "block", width: "auto", margin: "40px", height: "2px", color: "#cccccc",
           backgroundColor: "#cccccc", border: "none", marginBottom: "0px"
         }} />
+
         <CommentDiv>
           <div dangerouslySetInnerHTML={{ __html: commentDiv.innerHTML }} />
         </CommentDiv>
