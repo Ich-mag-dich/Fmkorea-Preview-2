@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const TitleDiv = styled.div`
     text-align: left;
@@ -9,6 +9,6 @@ const TitleDiv = styled.div`
     font-family: Noto Sans CJK KR, sans-serif;
     letter-spacing: -1.66px;
     color: #434343;
-`;
+`
 
 export { TitleDiv }

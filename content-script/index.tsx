@@ -1,43 +1,41 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import { Mydiv } from "./modules/test_page_style";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import './index.css'
 
 try {
-  (document.querySelector("#gnb > div > ul > li > a") as HTMLAnchorElement).href = "https://www.fmkorea.com/best";
+  (document.querySelector('#gnb > div > ul > li > a') as HTMLAnchorElement).href = 'https://www.fmkorea.com/best'
 } catch { }
 
-if (window.location.href === "https://www.fmkorea.com/") {
-  window.location.href = "https://www.fmkorea.com/best";
+if (window.location.href === 'https://www.fmkorea.com/') {
+  window.location.href = 'https://www.fmkorea.com/best'
 }
-const pluginTagId = "extension-root";
-const existingInstance = document.getElementById("extension-root");
-if (existingInstance) {
-  console.log("existing instance found, removing");
-  existingInstance.remove();
+const existingInstance = document.getElementById('extension-root')
+if (existingInstance != null) {
+  console.log('existing instance found, removing')
+  existingInstance.remove()
 }
 
-const frame = document.createElement("div");
+const frame = document.createElement('div')
 // var winY = window.scrollY;
-frame.style.width = "100VW"
+frame.style.width = '100VW'
 // frame.style.marginLeft = "calc(-50vw + 50%);" // center the frame
 // frame.style.maxWidth = "1200px";
 // frame.style.top = `${winY - 80}px`;
-frame.style.position = "absolute";
+frame.style.position = 'absolute'
 // frame.style.marginLeft = "21%";
 // frame.style.marginRight = "21%";
-frame.style.marginBottom = "100px";
-frame.id = "extension-root";
-frame.style.zIndex = "101";
-frame.style.visibility = "visible";
-frame.style.display = "block";
-frame.style.opacity = "0";
-frame.style.overflow = "scroll";
-frame.style.opacity = "1";
-frame.style.height = `1200px`;
-frame.style.visibility = "hidden";
-frame.style.top = "0px";
+frame.style.marginBottom = '100px'
+frame.id = 'extension-root'
+frame.style.zIndex = '101'
+frame.style.visibility = 'visible'
+frame.style.display = 'block'
+frame.style.opacity = '0'
+frame.style.overflow = 'scroll'
+frame.style.opacity = '1'
+frame.style.height = '1200px'
+frame.style.visibility = 'hidden'
+frame.style.top = '0px'
 // frame.onclick = (e) => {
 //   console.log(e.target);
 // }
@@ -50,14 +48,13 @@ frame.style.top = "0px";
 // Also control when the content script is injected from the manifest.json:
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#run_time
 
-
-const body123 = document.querySelector("#header");
-if (body123) {
-  body123.append(frame);
+const body123 = document.querySelector('#header')
+if (body123 != null) {
+  body123.append(frame)
 }
 
 ReactDOM.createRoot(frame).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
-);
+)

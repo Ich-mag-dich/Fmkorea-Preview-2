@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const Mydiv = styled.div`
   overflow: scroll;
@@ -42,6 +42,6 @@ const Mydiv = styled.div`
     --tw-text-opacity: 1;
     color: rgba(255, 255, 255, var(--tw-text-opacity));
   }
-`;
+`
 
-export { Mydiv };
+export { Mydiv }

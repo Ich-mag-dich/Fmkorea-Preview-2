@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const VoteCountDiv = styled.div`
     margin: 0 auto;
@@ -8,4 +8,4 @@ export const VoteCountDiv = styled.div`
         cursor: default;
     }
     color: #434343;
-`;
+`

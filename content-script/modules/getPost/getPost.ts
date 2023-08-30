@@ -1,6 +1,6 @@
 import axios from "axios";
-const GetPost = async postHref => {
-  const get_post = () => {
+const GetPost = async (postHref: string): Promise<any> => {
+  const getPost = async (): Promise<any> => {
     const post = axios
       .get(postHref)
       .then(res => {
@@ -11,9 +11,9 @@ const GetPost = async postHref => {
         console.log(err);
         return err;
       });
-    return post;
+    return await post;
   };
-  return await get_post();
+  return await getPost();
 };
 
 export default GetPost;

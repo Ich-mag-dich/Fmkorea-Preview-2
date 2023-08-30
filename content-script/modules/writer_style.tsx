@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import styled from 'styled-components'
 
 const WirterDiv = styled.div`
     margin-left: 40px;
@@ -9,6 +8,6 @@ const WirterDiv = styled.div`
     font-size: 12px;
     color: #000 !important;
     text-decoration: none !important;
-`;
+`
 
-export { WirterDiv };
+export { WirterDiv }
