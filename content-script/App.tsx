@@ -66,12 +66,13 @@ const App = (): React.JSX.Element => {
     }
   }
 
-  const requestPost = async (posthref: string): Promise<string> => {
+  const requestPost = async (posthref: string): Promise<string | undefined> => {
     try {
       return await fetch(posthref).then(async res => {
         return await res.text()
       })
     } catch {
+      return undefined
     }
   }
 
