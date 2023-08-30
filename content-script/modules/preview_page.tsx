@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 import '../index.css'
-import { TitleDiv } from './title_style'
-import { WirterDiv } from './writer_style'
-import { CommentDiv } from './comment_style'
-import { VoteDiv } from './vote_style'
-import { VoteCountDiv } from './vote_count_style'
+import { TitleDiv } from './styles/title_style'
+import { WirterDiv } from './styles/writer_style'
+import { CommentDiv } from './styles/comment_style'
+import { VoteDiv } from './styles/vote_style'
+import { VoteCountDiv } from './styles/vote_count_style'
 
 interface iPost {
   post: any
