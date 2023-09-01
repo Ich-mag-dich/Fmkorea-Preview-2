@@ -26,7 +26,14 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   const viewsDiv = getHtml.querySelector('div.side.fr > span')!
   const commentDiv = document.createElement('div')
   const voteDiv = document.createElement('div')
-  let readNum = (getHtml.querySelector('div.document_address > a') as HTMLAnchorElement).href.replace('https://www.fmkorea.com/', '')
+  let readNum
+  try {
+    readNum = (getHtml.querySelector('div.document_address > a') as HTMLAnchorElement).href.replace('https://www.fmkorea.com/', '')
+  } catch {
+    alert('오류가 발생했습니다. 새로고침 후 다시 시도해주세요.')
+    readNum = 'none'
+    window.location.reload()
+  }
   let voteCount = '0'
   try {
     voteCount = (getHtml.querySelector('.new_voted_count') as HTMLElement).innerText
@@ -142,13 +149,14 @@ function videoFunction(video1: any): HTMLVideoElement {
   const addedVideo = document.createElement('video')
   const addedSource = document.createElement('source')
   addedSource.type = 'video/mp4'
+  addedSource.src = video1.children[0].src
   addedVideo.src = video1.children[0].src
   addedVideo.controls = true
-  addedVideo.volume = 0.5
   addedVideo.style.maxWidth = '820px'
   addedVideo.style.height = 'auto'
   addedVideo.style.margin = '0 auto'
   addedVideo.appendChild(addedSource)
+  addedVideo.className = 'addedVideo'
   if (`${video1}`.includes('gif')) {
     addedVideo.autoplay = true
     addedVideo.loop = true
@@ -158,6 +166,7 @@ function videoFunction(video1: any): HTMLVideoElement {
   } else {
     addedVideo.autoplay = false
     addedVideo.loop = false
+    addedVideo.volume = 0.5 // FIXME  Not working
   }
   return addedVideo
 }
