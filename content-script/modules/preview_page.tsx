@@ -20,7 +20,12 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
 
   const getHtml = document.createElement('html')
   getHtml.innerHTML = post
-  const rdBody = getHtml.querySelector('.xe_content')!
+  let rdBody = getHtml.querySelector('.xe_content')!
+  if (getHtml.querySelector('.hotdeal_table')) {
+    rdBody = getHtml.querySelector('.hotdeal_url')!.parentElement!
+    rdBody.appendChild(getHtml.querySelector('.rd_body')!)
+  }
+  // const rdBody = getHtml.querySelector('.rd_body')!
   const writerDiv = getHtml.querySelector('.member_plate')!
   const dateDiv = getHtml.querySelector('span.date.m_no')!
   const viewsDiv = getHtml.querySelector('div.side.fr > span')!
@@ -92,7 +97,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
       video1.parentElement.parentElement.parentElement.replaceWith(addedVideo)
     }
   })
-
+  rdBody.querySelector('.document_address')?.remove()
   return (
     <div className="preview_article"
       style={{ marginLeft: '21%', marginRight: '21%', width: '900px', zIndex: '102' }}
