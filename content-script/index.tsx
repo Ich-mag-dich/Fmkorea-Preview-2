@@ -4,8 +4,10 @@ import App from './App'
 import './index.css'
 
 try {
-  (document.querySelector('#gnb > div > ul > li > a') as HTMLAnchorElement).href = 'https://www.fmkorea.com/best'
-} catch { }
+  ;(
+    document.querySelector('#gnb > div > ul > li > a') as HTMLAnchorElement
+  ).href = 'https://www.fmkorea.com/best'
+} catch {}
 
 if (window.location.href === 'https://www.fmkorea.com/') {
   window.location.href = 'https://www.fmkorea.com/best'

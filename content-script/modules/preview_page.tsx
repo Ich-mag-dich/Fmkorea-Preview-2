@@ -31,21 +31,29 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   const viewsDiv = getHtml.querySelector('div.side.fr > span')!
   const commentDiv = document.createElement('div')
   const voteDiv = document.createElement('div')
+
   let readNum
+
   try {
-    readNum = (getHtml.querySelector('div.document_address > a') as HTMLAnchorElement).href.replace('https://www.fmkorea.com/', '')
+    readNum = (
+      getHtml.querySelector('div.document_address > a') as HTMLAnchorElement
+    ).href.replace('https://www.fmkorea.com/', '')
   } catch {
     alert('오류가 발생했습니다. 새로고침 후 다시 시도해주세요.')
     readNum = 'none'
     window.location.reload()
   }
+
   let voteCount = '0'
+
   try {
-    voteCount = (getHtml.querySelector('.new_voted_count') as HTMLElement).innerText
-  } catch { }
+    voteCount = (getHtml.querySelector('.new_voted_count') as HTMLElement)
+      .innerText
+  } catch {}
+
   try {
     readNum = readNum.replace('best/', '')
-  } catch { }
+  } catch {}
   voteDiv.innerHTML = `<a id="voteup" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #7ca2db; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;" onclick="fm_vote(${readNum}, jQuery('#fm_vote${readNum}')[0]);" >추천</a>
         <a id="votedown" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #ff8888; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;"onclick="fm_vote3(${readNum});" >비추천</a>`
 
@@ -78,7 +86,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
         ''
       )
     }
-  } catch { }
+  } catch {}
 
   rdBody.querySelectorAll('img').forEach((img1: any) => {
     img1.style.maxWidth = '820px'
@@ -99,8 +107,14 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   })
   rdBody.querySelector('.document_address')?.remove()
   return (
-    <div className="preview_article"
-      style={{ marginLeft: '21%', marginRight: '21%', width: '900px', zIndex: '102' }}
+    <div
+      className="preview_article"
+      style={{
+        marginLeft: '21%',
+        marginRight: '21%',
+        width: '900px',
+        zIndex: '102'
+      }}
     >
       <div
         style={{ width: '900px' }}
@@ -111,37 +125,68 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
         </TitleDiv>
 
         <WirterDiv className="member_plate">
-          <div dangerouslySetInnerHTML={{ __html: writerDiv.innerHTML }} />
-          <div style={{ textAlign: 'right' }} dangerouslySetInnerHTML={{ __html: dateDiv.innerHTML }} />
-          <div style={{ textAlign: 'right' }} dangerouslySetInnerHTML={{ __html: viewsDiv.innerHTML }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: writerDiv.innerHTML
+            }}
+          />
+          <div
+            style={{ textAlign: 'right' }}
+            dangerouslySetInnerHTML={{ __html: dateDiv.innerHTML }}
+          />
+          <div
+            style={{ textAlign: 'right' }}
+            dangerouslySetInnerHTML={{ __html: viewsDiv.innerHTML }}
+          />
         </WirterDiv>
 
         <div
-          style={{ marginLeft: '40px', marginRight: '40px', paddingBottom: '10px' }}
+          style={{
+            marginLeft: '40px',
+            marginRight: '40px',
+            paddingBottom: '10px'
+          }}
         >
-          <div style={{ fontSize: '13px' }} dangerouslySetInnerHTML={{ __html: rdBody.innerHTML }} />
+          <div
+            style={{ fontSize: '13px' }}
+            dangerouslySetInnerHTML={{ __html: rdBody.innerHTML }}
+          />
         </div>
 
         <VoteDiv>
           <VoteCountDiv>
-            <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>추천수: {voteCount}</div>
+            <div
+              style={{
+                textAlign: 'center',
+                fontSize: '20px',
+                fontWeight: 'bold'
+              }}
+            >
+              추천수: {voteCount}
+            </div>
           </VoteCountDiv>
           <div dangerouslySetInnerHTML={{ __html: voteDiv.innerHTML }} />
         </VoteDiv>
 
-        <hr style={{
-          display: 'block',
-          width: 'auto',
-          margin: '40px',
-          height: '2px',
-          color: '#cccccc',
-          backgroundColor: '#cccccc',
-          border: 'none',
-          marginBottom: '0px'
-        }} />
+        <hr
+          style={{
+            display: 'block',
+            width: 'auto',
+            margin: '40px',
+            height: '2px',
+            color: '#cccccc',
+            backgroundColor: '#cccccc',
+            border: 'none',
+            marginBottom: '0px'
+          }}
+        />
 
         <CommentDiv>
-          <div dangerouslySetInnerHTML={{ __html: commentDiv.innerHTML }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: commentDiv.innerHTML
+            }}
+          />
         </CommentDiv>
       </div>
     </div>

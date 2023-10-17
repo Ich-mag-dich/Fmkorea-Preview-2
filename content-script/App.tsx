@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { useEffect, useState } from 'react'
 import PreviewPage from './modules/preview_page'
 import './index.css'
@@ -25,7 +26,9 @@ const App = (): React.JSX.Element => {
   const [error, setError] = useState(false)
   const [visl, setVisual] = useState<string>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const throwErrorInRender = (): void => { setError(true) }
+  const throwErrorInRender = (): void => {
+    setError(true)
+  }
   const [post, setPost] = useState<any>()
   if (visl === undefined) {
     setVisual('hidden')
@@ -44,7 +47,9 @@ const App = (): React.JSX.Element => {
   const handleClick = async (target: any): Promise<void> => {
     try {
       if (!checkState) {
-        const extensionRoot = document.querySelector('#extension-root') as HTMLElement
+        const extensionRoot = document.querySelector(
+          '#extension-root'
+        ) as HTMLElement
         extensionRoot.style.top = `${window.scrollY - 80}px`
         document.querySelector('body')?.style.setProperty('overflow', 'hidden')
         extensionRoot.style.visibility = 'visible'
@@ -60,15 +65,14 @@ const App = (): React.JSX.Element => {
         }
         chgVisl()
         addHistory(target.innerText, postHref, target.innerText)
-        setPost(await requestPost(postHref).then(res => res))
+        setPost(await requestPost(postHref).then((res) => res))
       }
-    } catch {
-    }
+    } catch {}
   }
 
   const requestPost = async (posthref: string): Promise<string | undefined> => {
     try {
-      return await fetch(posthref).then(async res => {
+      return await fetch(posthref).then(async (res) => {
         return await res.text()
       })
     } catch {
@@ -93,8 +97,12 @@ const App = (): React.JSX.Element => {
     } catch {
       setPost(undefined)
     }
-    document.querySelector('body')?.style.setProperty('overflow', 'hidden scroll')
-    const extensionRoot = document.querySelector('#extension-root') as HTMLElement
+    document
+      .querySelector('body')
+      ?.style.setProperty('overflow', 'hidden scroll')
+    const extensionRoot = document.querySelector(
+      '#extension-root'
+    ) as HTMLElement
     extensionRoot.style.backgroundColor = 'rgba(109, 109, 109, 0.0)'
     extensionRoot.style.visibility = 'hidden'
     extensionRoot.style.top = '0px'
@@ -114,26 +122,30 @@ const App = (): React.JSX.Element => {
 
   useEffect(() => {
     document.addEventListener('contextmenu', function (e) {
-      if (checkState) { /* empty */ } else {
+      if (checkState) {
+        /* empty */
+      } else {
         if (e.target != null) {
           const target = e.target as HTMLElement
           // console.log(target);
           if (
-            classNames.some(className => target.classList.contains(className))
+            classNames.some((className) => target.classList.contains(className))
           ) {
             e.preventDefault()
             void handleClick(target)
           } else if (target.parentElement != null) {
             const parent = target.parentElement
             if (
-              classNames.some(className => parent.classList.contains(className))
+              classNames.some((className) =>
+                parent.classList.contains(className)
+              )
             ) {
               e.preventDefault()
               void handleClick(target)
-            } else if ((target.parentElement?.parentElement) != null) {
+            } else if (target.parentElement?.parentElement != null) {
               const parent = target.parentElement.parentElement
               if (
-                classNames.some(className =>
+                classNames.some((className) =>
                   parent.classList.contains(className)
                 )
               ) {
@@ -165,15 +177,13 @@ const App = (): React.JSX.Element => {
   try {
     return (
       <div className={visl} id={'frame'} style={{ marginBottom: '500px' }}>
-        {postHref !== '' && visl === 'block' && (Boolean(post))
-          ? (
-            <PreviewPage post={post} postHref={postHref} ></PreviewPage>
-            // eslint-disable-next-line @typescript-eslint/indent
-          )
-          : (
-            <div></div>
-            // eslint-disable-next-line @typescript-eslint/indent
-          )}
+        {postHref !== '' && visl === 'block' && Boolean(post) ? (
+          <PreviewPage post={post} postHref={postHref}></PreviewPage>
+        ) : (
+          // eslint-disable-next-line @typescript-eslint/indent
+          <div></div>
+          // eslint-disable-next-line @typescript-eslint/indent
+        )}
       </div>
     )
   } catch {
