@@ -105,6 +105,11 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
       video1.parentElement.parentElement.parentElement.replaceWith(addedVideo)
     }
   })
+
+  commentDiv.querySelectorAll('.document_writer').forEach((writer: any) => {
+    writer.children[0].style.color = '#045cdf'
+  })
+
   rdBody.querySelector('.document_address')?.remove()
   return (
     <div
