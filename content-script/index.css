@@ -17,13 +17,11 @@
   margin-top: 100px;
   width: auto;
   border-radius: 10px;
-  background-color: rgba(245, 245, 245, 0.85);
   backdrop-filter: blur(5px) saturate(150%);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 16px;
 }
 
-.member_plate {
-  color: rgb(38, 38, 38);
+.member_plate2 {
   text-decoration: none;
   vertical-align: middle;
 }
@@ -33,7 +31,7 @@
   height: 25px;
 }
 
-.member_plate img {
+.member_plate2 img {
   vertical-align: middle;
 }
 
@@ -48,7 +46,6 @@ div.side {
 #extension-root {
   -webkit-transition: background-color 1s;
   transition: background-color 1s;
-  background-color: rgba(221, 221, 221, 0.6) !important;
 }
 
 li.fdb_itm {
@@ -58,7 +55,6 @@ li.fdb_itm {
 .nocomment {
   text-align: center;
   font-size: 13px;
-  color: #454545;
 }
 
 .fdb_itm > i.re {

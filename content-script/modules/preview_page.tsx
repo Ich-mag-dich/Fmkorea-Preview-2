@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -17,6 +18,14 @@ interface iPost {
 const PreviewPage = (props: iPost): React.JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { post, postHref } = props
+  let darkmode = false
+
+  const getdarkmode = document.querySelector(
+    '.logged_info > .li2 > .on1'
+  )?.innerHTML
+  if (getdarkmode === '다크ON') {
+    darkmode = true
+  }
 
   const getHtml = document.createElement('html')
   getHtml.innerHTML = post
@@ -63,6 +72,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
     commentDiv.innerHTML = `<div class="nocomment" style="margin-top: 40px;">
       <h1>댓글이 없어요 ;ㅅ;</h1>
     </div>`
+    commentDiv.style.color = darkmode ? '#ccc' : '#454545'
   }
 
   // eslint-disable-next-line no-useless-escape
@@ -107,18 +117,25 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   })
 
   commentDiv.querySelectorAll('.document_writer').forEach((writer: any) => {
-    writer.children[0].style.color = '#045cdf'
+    writer.children[0].style.color = darkmode ? 'rgb(104 164 255)' : '#045cdf'
   })
+  const articleBackgroundColor = darkmode
+    ? 'rgba(51, 51, 51)'
+    : 'rgba(245, 245, 245, 0.85)'
+
+  const articleFontColor = darkmode ? '#ccc' : '#434343'
 
   rdBody.querySelector('.document_address')?.remove()
   return (
     <div
       className="preview_article"
       style={{
+        backgroundColor: `${articleBackgroundColor}`,
         marginLeft: '21%',
         marginRight: '21%',
         width: '900px',
-        zIndex: '102'
+        zIndex: '102',
+        color: `${articleFontColor}`
       }}
     >
       <div
@@ -129,7 +146,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
           <p>{(title as HTMLElement).innerText.toString()}</p>
         </TitleDiv>
 
-        <WirterDiv className="member_plate">
+        <WirterDiv className="member_plate2">
           <div
             dangerouslySetInnerHTML={{
               __html: writerDiv.innerHTML
@@ -145,18 +162,33 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
           />
         </WirterDiv>
 
-        <div
-          style={{
-            marginLeft: '40px',
-            marginRight: '40px',
-            paddingBottom: '10px'
-          }}
-        >
+        {darkmode ? (
           <div
-            style={{ fontSize: '13px' }}
-            dangerouslySetInnerHTML={{ __html: rdBody.innerHTML }}
-          />
-        </div>
+            style={{
+              marginLeft: '40px',
+              marginRight: '40px',
+              paddingBottom: '10px'
+            }}
+          >
+            <div
+              style={{ fontSize: '13px' }}
+              dangerouslySetInnerHTML={{ __html: rdBody.innerHTML }}
+            />
+          </div>
+        ) : (
+          <div
+            style={{
+              marginLeft: '40px',
+              marginRight: '40px',
+              paddingBottom: '10px'
+            }}
+          >
+            <div
+              style={{ fontSize: '13px' }}
+              dangerouslySetInnerHTML={{ __html: rdBody.innerHTML }}
+            />
+          </div>
+        )}
 
         <VoteDiv>
           <VoteCountDiv>

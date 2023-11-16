@@ -34,6 +34,15 @@ const App = (): React.JSX.Element => {
     setVisual('hidden')
   }
 
+  let darkmode = false
+
+  const getdarkmode = document.querySelector(
+    '.logged_info > .li2 > .on1'
+  )?.innerHTML
+  if (getdarkmode === '다크ON') {
+    darkmode = true
+  }
+
   const chgVisl = (): void => {
     if (visl === 'hidden' && checkState) {
       setVisual('block')
@@ -53,7 +62,12 @@ const App = (): React.JSX.Element => {
         extensionRoot.style.top = `${window.scrollY - 80}px`
         document.querySelector('body')?.style.setProperty('overflow', 'hidden')
         extensionRoot.style.visibility = 'visible'
-        extensionRoot.style.backgroundColor = 'rgba(109, 109, 109, 0.5)'
+        extensionRoot.style.transition = 'background-color 1s'
+        if (darkmode) {
+          extensionRoot.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+        } else {
+          extensionRoot.style.backgroundColor = 'rgba(109, 109, 109, 0.5)'
+        }
         // console.log(target.innerText)
         checkState = true
         if (target.href !== undefined) {
