@@ -60,3 +60,7 @@ li.fdb_itm {
 .fdb_itm > i.re {
   left: -5px !important;
 }
+
+.views > span {
+  margin-right: 0.5rem;
+}

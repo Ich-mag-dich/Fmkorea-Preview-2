@@ -37,7 +37,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   // const rdBody = getHtml.querySelector('.rd_body')!
   const writerDiv = getHtml.querySelector('.member_plate')!
   const dateDiv = getHtml.querySelector('span.date.m_no')!
-  const viewsDiv = getHtml.querySelector('div.side.fr > span')!
+  const viewsDiv = getHtml.querySelector('div.side.fr')!
   const commentDiv = document.createElement('div')
   const voteDiv = document.createElement('div')
 
@@ -157,6 +157,7 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
             dangerouslySetInnerHTML={{ __html: dateDiv.innerHTML }}
           />
           <div
+            className="views"
             style={{ textAlign: 'right' }}
             dangerouslySetInnerHTML={{ __html: viewsDiv.innerHTML }}
           />
