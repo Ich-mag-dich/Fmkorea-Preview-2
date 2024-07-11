@@ -24,7 +24,7 @@
 
 ### Chrome
 
-`pnpm build:chrome` builds the extensions for Google Chrome.
+`pnpm build` builds the extensions for Google Chrome.
 
 The generated files are in `dist/`.
 To load the extensions in Google Chrome go to `chrome://extensions/` and click `Load unpacked`. Locate the dist directory and select `manifest.json`.

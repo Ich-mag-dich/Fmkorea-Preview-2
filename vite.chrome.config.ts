@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import {resolve} from "path";
+import { resolve } from 'path'
+import copyHtmlPlugin from './copy-html-plugin'
 
 const fetchVersion = () => {
   return {
@@ -16,7 +17,7 @@ const fetchVersion = () => {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), fetchVersion()],
+  plugins: [react(), fetchVersion(), copyHtmlPlugin()],
   build: {
     emptyOutDir: false,
     outDir: resolve(__dirname, 'dist'),
@@ -28,7 +29,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         entryFileNames: 'background.global.js',
-        extend: true,
+        extend: true
       }
     }
   }

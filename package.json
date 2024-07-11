@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "dev:watch": "tsc && vite build --config vite.chrome.config.ts && mv dist/manifestv3.json dist/manifest.json && vite build --config vite.content.config.ts --watch",
+    "dev:watch": "tsc && vite build --config vite.chrome.config.ts && vite build --config vite.content.config.ts --watch",
     "build:manifest:chrome": "mv dist/manifestv3.json dist/manifest.json",
     "build:background:chrome": "vite build --config vite.chrome.config.ts",
     "build:js": "vite build --config vite.content.config.ts",
     "build:web": "tsc && vite build",
     "build": "NODE_ENV=production run-s build:js build:web",
-    "build:chrome": "NODE_ENV=production run-s build:js build:background:chrome build:web build:manifest:chrome",
+    "build:chrome": "NODE_ENV=production run-s build:js build:background:chrome build:web",
     "package": "zip -r extension.zip dist/*",
     "preview": "vite preview"
   },
