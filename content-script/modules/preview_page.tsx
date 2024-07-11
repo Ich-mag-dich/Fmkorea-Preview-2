@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../index.css'
 import { TitleDiv } from './styles/title_style'
 import { WirterDiv } from './styles/writer_style'
@@ -115,6 +115,18 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
       video1.parentElement.parentElement.parentElement.replaceWith(addedVideo)
     }
   })
+
+  useEffect(() => {
+    const videos = document.querySelectorAll('.addedVideo')
+    videos.forEach((video: Element) => {
+      const videoElement = video as HTMLVideoElement
+      try {
+        videoElement.volume = 0.5
+      } catch (e) {
+        console.log(e)
+      }
+    })
+  }, [])
 
   commentDiv.querySelectorAll('.document_writer').forEach((writer: any) => {
     writer.children[0].style.color = darkmode ? 'rgb(104 164 255)' : '#045cdf'
@@ -256,5 +268,11 @@ function videoFunction(video1: any): HTMLVideoElement {
     addedVideo.loop = false
     addedVideo.volume = 0.5 // FIXME  Not working
   }
+
+  // 비디오가 로드된 후 볼륨을 설정
+  addedVideo.addEventListener('loadedmetadata', () => {
+    addedVideo.volume = 0.5
+  })
+
   return addedVideo
 }
