@@ -14,12 +14,10 @@
       "css": ["./style.css"]
     }
   ],
-  "permissions": ["activeTab", "storage"],
+  "permissions": [],
 
   "host_permissions": ["https://*.fmkorea.com/*", "*://*/*"],
-  "background": {
-    "service_worker": "./background.global.js"
-  },
+
   "icons": {
     "128": "icon.png"
   },
