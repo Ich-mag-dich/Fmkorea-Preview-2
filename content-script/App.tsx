@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable multiline-ternary */
 import React, { useEffect, useState } from 'react'
 import PreviewPage from './modules/preview_page'
@@ -11,6 +12,72 @@ const throwError = (): void => {
   throw new Error('Something Broken')
 }
 
+let savedScrollPosition = 0
+
+// window.addEventListener('keydown', (e) => {
+//   if (e.key === 't') {
+//     const scroll = window.scrollY
+//     console.log(scroll, savedScrollPosition)
+//   } else if (e.key === 'y') {
+//     window.scrollTo(0, 167)
+//   }
+// })
+
+function saveScrollPosition(): void {
+  savedScrollPosition = window.scrollY
+}
+
+function restoreScrollPosition(): void {
+  window.scrollTo(0, savedScrollPosition)
+}
+
+// window.addEventListener('scroll', function (e) {
+//   if (window.scrollY !== 0) {
+//     // console.log('scroll')
+//     // saveScrollPosition()
+//   }
+// })
+
+document.addEventListener('fullscreenchange', () => {
+  // console.log('q')
+  // console.log(`saved ${savedScrollPosition}`)
+  // console.log(`now ${window.scrollY}`)
+
+  if (document.fullscreenElement != null) {
+    // console.log('full')
+  } else {
+    // console.log('exit')
+    restoreScrollPosition()
+  }
+})
+
+document.addEventListener('webkitfullscreenchange', () => {
+  if (document.fullscreenElement != null) {
+    // console.log('full')
+  } else {
+    // console.log('exit')
+    restoreScrollPosition()
+  }
+})
+
+document.addEventListener('mozwebkitfullscreenchange', () => {
+  if (document.fullscreenElement != null) {
+    // console.log('full')
+  } else {
+    // console.log('exit')
+    restoreScrollPosition()
+  }
+})
+
+document.addEventListener('MSwebkitfullscreenchange', () => {
+  if (document.fullscreenElement != null) {
+    // console.log('full')
+  } else {
+    // console.log('exit')
+    restoreScrollPosition()
+  }
+})
+
 let count = 0
 
 const addHistory = (title1: any, postHref: any, title2: any): void => {
@@ -23,6 +90,7 @@ const addHistory = (title1: any, postHref: any, title2: any): void => {
 }
 
 const App = (): React.JSX.Element => {
+  saveScrollPosition()
   const [error, setError] = useState(false)
   const [visl, setVisual] = useState<string>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
