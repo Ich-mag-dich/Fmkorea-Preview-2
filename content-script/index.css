@@ -64,3 +64,34 @@ li.fdb_itm {
 .views > span {
   margin-right: 0.5rem;
 }
+
+.commentPageSelectButtons {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.commentPageSelectButton {
+  border: solid;
+  border-color: #d3d3d3;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.commentPageSelectButton:hover {
+  transition: all 0.5s;
+  background-color: #d3d3d3;
+}
+
+/* .commentPageDiv:hover {
+  cursor: default;
+} */
+
+.commentPageSelectButton {
+  transition: background-color 0.5s ease; /* 0.5초 동안 배경색 변화 */
+}
+
+.commentPageSelectButton:hover {
+  background-color: #d3d3d3; /* 마우스를 올렸을 때 배경색 */
+}

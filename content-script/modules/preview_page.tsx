@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import '../index.css'
 import { TitleDiv } from './styles/title_style'
 import { WirterDiv } from './styles/writer_style'
@@ -17,6 +21,53 @@ interface iPost {
 
 const PreviewPage = (props: iPost): React.JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [commentPageCount, setCommentPageCount] = useState(0)
+  const [commentPageNumber, setCommentPageNumber] = useState(0)
+  const [comments, setComments] = useState<string>('') // 댓글 데이터를 저장하는 상태입니다.
+  const commentsRef = useRef<HTMLDivElement>(null)
+  const [isInitialLoad, setIsInitialLoad] = useState(true) // 처음 로드 여부를 저장하는 상태
+  const [isInitialLoad2, setIsInitialLoad2] = useState(true) // 처음 로드 여부를 저장하는 상태
+  const fetchComments = async (pageNumber: number): Promise<void> => {
+    const url = `${postHref}?cpage=${pageNumber}`
+    // 댓글 데이터를 가져오는 API 요청을 여기에 작성합니다.
+    // 예시로 fetch를 사용합니다.
+    try {
+      const response = await fetch(url)
+      const data = await response.text() // 혹은 JSON 형식에 맞게 변경하세요.
+      const dataDiv = document.createElement('div')
+      dataDiv.innerHTML = data
+      const comment = dataDiv.querySelector('ul.fdb_lst_ul ')!.innerHTML
+      setComments(comment)
+      if (isInitialLoad2 && !isInitialLoad) {
+        setIsInitialLoad2(false)
+      }
+      setIsInitialLoad(false)
+
+      setCommentPageNumber(pageNumber)
+      if (pageNumber !== 0) {
+        // scrollToComments()
+      }
+    } catch (error) {
+      console.error('Failed to fetch comments:', error)
+    }
+  }
+
+  // const scrollToComments = (): void => {
+  //   if (commentsRef.current) {
+  //     commentsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  //   }
+  // }
+  useEffect(() => {
+    if (!isInitialLoad2 && comments && commentsRef.current) {
+      // 처음 로드가 아닐 때만 스크롤
+      commentsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [comments])
+
+  const handleButtonClick = (pageNumber: number): void => {
+    fetchComments(pageNumber)
+  }
+
   const { post, postHref } = props
   let darkmode = false
 
@@ -66,13 +117,44 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
   voteDiv.innerHTML = `<a id="voteup" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #7ca2db; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;" onclick="fm_vote(${readNum}, jQuery('#fm_vote${readNum}')[0]);" >추천</a>
         <a id="votedown" style="display: inline-block; position: static; cursor: pointer; width: 100px; border-style: solid; border-radius: 15px; color: #ff8888; border-color: rgb(231, 231, 231); background-color: rgb(231, 231, 231); font-size: 20px; font-weight: bold;"onclick="fm_vote3(${readNum});" >비추천</a>`
 
-  try {
-    commentDiv.innerHTML = getHtml.querySelector('ul.fdb_lst_ul ')!.innerHTML
-  } catch {
+  const commentPage = getHtml.querySelector('.bd_pg > .this')?.innerHTML
+
+  const commentCount = getHtml.querySelector(
+    '.btm_area.clear > div.side.fr > span:nth-child(3) > b'
+  )?.innerHTML
+
+  const commentPageDiv = document.createElement('div')
+  commentPageDiv.className = 'commentPageDiv' // css는 index.css로
+
+  if (commentCount === '0') {
     commentDiv.innerHTML = `<div class="nocomment" style="margin-top: 40px;">
-      <h1>댓글이 없어요 ;ㅅ;</h1>
+    <h1>댓글이 없어요 ;ㅅ;</h1>
     </div>`
     commentDiv.style.color = darkmode ? '#ccc' : '#454545'
+  } else {
+    // commentDiv.innerHTML = getHtml.querySelector('ul.fdb_lst_ul ')!.innerHTML
+    if (comments === '') {
+      fetchComments(0)
+    }
+    if (commentPage !== undefined) {
+      if (commentPageCount === 0) {
+        setCommentPageCount(parseInt(commentPage, 10))
+        if (commentPageNumber === 0) {
+          setCommentPageNumber(parseInt(commentPage, 10))
+        }
+      }
+      // const n = parseInt(commentPage, 10)
+      // for (let i = 1; i <= n; i++) {
+      //   const commentPageSelectButton = document.createElement('button')
+      //   commentPageSelectButton.className = `commentPageSelectButton page_${i}`
+      //   commentPageSelectButton.innerHTML = `${i}`
+      //   commentPageSelectButton.onclick = () => {
+      //     console.log('test')
+      //   }
+      //   commentPageSelectButtons.appendChild(commentPageSelectButton)
+      // }
+      // commentPageSelectButtons.style.textAlign = 'center'
+    }
   }
 
   // eslint-disable-next-line no-useless-escape
@@ -233,10 +315,35 @@ const PreviewPage = (props: iPost): React.JSX.Element => {
 
         <CommentDiv>
           <div
-            dangerouslySetInnerHTML={{
-              __html: commentDiv.innerHTML
-            }}
-          />
+            style={{ paddingTop: '150px', marginTop: '-150px' }}
+            ref={commentsRef}
+            className="comments"
+          >
+            {/* 댓글 데이터를 표시합니다 */}
+            <div dangerouslySetInnerHTML={{ __html: comments }} />
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            {[...Array(commentPageCount)].map((_, i) => (
+              <button
+                key={i + 1}
+                className={`commentPageSelectButton page_${i + 1}`}
+                onClick={() => handleButtonClick(i + 1)}
+                style={{
+                  backgroundColor:
+                    commentPageNumber === i + 1
+                      ? '#d3d3d3'
+                      : commentPageNumber !== 0
+                      ? 'rgb(239 239 239 / 50%)'
+                      : commentPageCount === i + 1
+                      ? '#d3d3d3'
+                      : 'rgb(239 239 239 / 50%)'
+                }}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
         </CommentDiv>
       </div>
     </div>
