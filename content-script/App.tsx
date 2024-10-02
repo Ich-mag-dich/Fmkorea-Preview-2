@@ -28,7 +28,9 @@ function saveScrollPosition(): void {
 }
 
 function restoreScrollPosition(): void {
-  window.scrollTo(0, savedScrollPosition)
+  if (checkState) {
+    window.scrollTo(0, savedScrollPosition)
+  }
 }
 
 // window.addEventListener('scroll', function (e) {
