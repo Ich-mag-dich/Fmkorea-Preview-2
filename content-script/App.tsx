@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable multiline-ternary */
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+// import PreviewPage from './modules/preview_page'
 import PreviewPage from './modules/preview_page'
 import './index.css'
 
@@ -8,9 +9,6 @@ const classNames = ['hotdeal_var8', 'notice_pop0', 'title']
 let checkState = false
 let postHref = ''
 let exTitle = ''
-const throwError = (): void => {
-  throw new Error('Something Broken')
-}
 
 let savedScrollPosition = 0
 
@@ -93,12 +91,9 @@ const addHistory = (title1: any, postHref: any, title2: any): void => {
 
 const App = (): React.JSX.Element => {
   saveScrollPosition()
-  const [error, setError] = useState(false)
   const [visl, setVisual] = useState<string>()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const throwErrorInRender = (): void => {
-    setError(true)
-  }
+
   const [post, setPost] = useState<any>()
   if (visl === undefined) {
     setVisual('hidden')
@@ -113,7 +108,7 @@ const App = (): React.JSX.Element => {
     darkmode = true
   }
 
-  const chgVisl = (): void => {
+  const chgVisl = useCallback((): void => {
     if (visl === 'hidden' && checkState) {
       setVisual('block')
     } else if (visl === 'block' && !checkState) {
@@ -121,7 +116,7 @@ const App = (): React.JSX.Element => {
     } else if (visl === undefined) {
       setVisual('block')
     }
-  }
+  }, [visl, checkState])
 
   const handleClick = async (target: any): Promise<void> => {
     try {
@@ -164,12 +159,8 @@ const App = (): React.JSX.Element => {
     }
   }
 
-  const exit = (): void => {
-    // console.log(checkState)
-    if (!checkState) {
-      return
-    }
-    if (count !== 1) {
+  const exit = useCallback((): void => {
+    if (!checkState || count !== 1) {
       return
     }
 
@@ -193,7 +184,7 @@ const App = (): React.JSX.Element => {
     document.title = exTitle
     count = 0
     history.back()
-  }
+  }, [chgVisl, exTitle])
 
   window.onkeydown = (event: { keyCode: number }) => {
     if (event.keyCode === 27) {
@@ -253,10 +244,6 @@ const App = (): React.JSX.Element => {
       }
     })
   }, [])
-
-  useEffect(() => {
-    if (error) throwError()
-  }, [error])
 
   try {
     return (
