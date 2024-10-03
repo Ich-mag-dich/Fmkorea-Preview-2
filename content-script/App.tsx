@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/space-before-function-paren */
 /* eslint-disable multiline-ternary */
 import React, { useCallback, useEffect, useState } from 'react'
-// import PreviewPage from './modules/preview_page'
 import PreviewPage from './modules/preview_page'
 import './index.css'
 
@@ -11,15 +13,6 @@ let postHref = ''
 let exTitle = ''
 
 let savedScrollPosition = 0
-
-// window.addEventListener('keydown', (e) => {
-//   if (e.key === 't') {
-//     const scroll = window.scrollY
-//     console.log(scroll, savedScrollPosition)
-//   } else if (e.key === 'y') {
-//     window.scrollTo(0, 167)
-//   }
-// })
 
 function saveScrollPosition(): void {
   savedScrollPosition = window.scrollY
@@ -31,56 +24,15 @@ function restoreScrollPosition(): void {
   }
 }
 
-// window.addEventListener('scroll', function (e) {
-//   if (window.scrollY !== 0) {
-//     // console.log('scroll')
-//     // saveScrollPosition()
-//   }
-// })
-
-document.addEventListener('fullscreenchange', () => {
-  // console.log('q')
-  // console.log(`saved ${savedScrollPosition}`)
-  // console.log(`now ${window.scrollY}`)
-
-  if (document.fullscreenElement != null) {
-    // console.log('full')
-  } else {
-    // console.log('exit')
-    restoreScrollPosition()
-  }
-})
-
-document.addEventListener('webkitfullscreenchange', () => {
-  if (document.fullscreenElement != null) {
-    // console.log('full')
-  } else {
-    // console.log('exit')
-    restoreScrollPosition()
-  }
-})
-
-document.addEventListener('mozwebkitfullscreenchange', () => {
-  if (document.fullscreenElement != null) {
-    // console.log('full')
-  } else {
-    // console.log('exit')
-    restoreScrollPosition()
-  }
-})
-
-document.addEventListener('MSwebkitfullscreenchange', () => {
-  if (document.fullscreenElement != null) {
-    // console.log('full')
-  } else {
-    // console.log('exit')
-    restoreScrollPosition()
-  }
-})
+document.addEventListener('fullscreenchange', restoreScrollPosition)
 
 let count = 0
 
-const addHistory = (title1: any, postHref: any, title2: any): void => {
+const addHistory = (
+  title1: HTMLElement,
+  postHref: string,
+  title2: string
+): void => {
   if (count === 0) {
     history.pushState(null, `${title1.innerText}`, `${postHref}`)
     exTitle = document.title
@@ -91,16 +43,10 @@ const addHistory = (title1: any, postHref: any, title2: any): void => {
 
 const App = (): React.JSX.Element => {
   saveScrollPosition()
-  const [visl, setVisual] = useState<string>()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
-  const [post, setPost] = useState<any>()
-  if (visl === undefined) {
-    setVisual('hidden')
-  }
+  const [visl, setVisual] = useState<string>('hidden')
+  const [post, setPost] = useState<any>(null)
 
   let darkmode = false
-
   const getdarkmode = document.querySelector(
     '.logged_info > .li2 > .on1'
   )?.innerHTML
@@ -109,55 +55,45 @@ const App = (): React.JSX.Element => {
   }
 
   const chgVisl = useCallback((): void => {
-    if (visl === 'hidden' && checkState) {
-      setVisual('block')
-    } else if (visl === 'block' && !checkState) {
-      setVisual('hidden')
-    } else if (visl === undefined) {
-      setVisual('block')
-    }
-  }, [visl, checkState])
+    setVisual((prevVisl) => (prevVisl === 'hidden' ? 'block' : 'hidden'))
+  }, [])
 
-  const handleClick = async (target: any): Promise<void> => {
-    try {
-      if (!checkState) {
-        const extensionRoot = document.querySelector(
-          '#extension-root'
-        ) as HTMLElement
-        extensionRoot.style.top = `${window.scrollY - 80}px`
-        document.querySelector('body')?.style.setProperty('overflow', 'hidden')
-        extensionRoot.style.visibility = 'visible'
-        extensionRoot.style.transition = 'background-color 1s'
-        if (darkmode) {
-          extensionRoot.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        } else {
-          extensionRoot.style.backgroundColor = 'rgba(109, 109, 109, 0.5)'
+  const handleClick = useCallback(
+    async (target: any): Promise<void> => {
+      try {
+        if (!checkState) {
+          const extensionRoot = document.querySelector(
+            '#extension-root'
+          ) as HTMLElement
+          extensionRoot.style.top = `${window.scrollY - 80}px`
+          document.body.style.overflow = 'hidden'
+          extensionRoot.style.visibility = 'visible'
+          extensionRoot.style.transition = 'background-color 1s'
+          extensionRoot.style.backgroundColor = darkmode
+            ? 'rgba(0, 0, 0, 0.5)'
+            : 'rgba(109, 109, 109, 0.5)'
+
+          checkState = true
+          if (target.href !== undefined) {
+            postHref = target.href
+          } else if (target.children[0]?.href !== undefined) {
+            postHref = target.children[0].href
+          } else if (target.parentElement?.href !== undefined) {
+            postHref = target.parentElement.href
+          }
+          console.log('postHref:', postHref)
+
+          chgVisl()
+          addHistory(target, postHref, target.innerText)
+          const response = await fetch(postHref)
+          setPost(await response.text())
         }
-        // console.log(target.innerText)
-        checkState = true
-        if (target.href !== undefined) {
-          postHref = target.href
-        } else if (target.children[0]?.href !== undefined) {
-          postHref = target.children[0].href
-        } else if (target.parentElement?.href !== undefined) {
-          postHref = target.parentElement.href
-        }
-        chgVisl()
-        addHistory(target.innerText, postHref, target.innerText)
-        setPost(await requestPost(postHref).then((res) => res))
+      } catch (error) {
+        console.error('Error fetching post:', error)
       }
-    } catch {}
-  }
-
-  const requestPost = async (posthref: string): Promise<string | undefined> => {
-    try {
-      return await fetch(posthref).then(async (res) => {
-        return await res.text()
-      })
-    } catch {
-      return undefined
-    }
-  }
+    },
+    [chgVisl, darkmode]
+  )
 
   const exit = useCallback((): void => {
     if (!checkState || count !== 1) {
@@ -166,15 +102,8 @@ const App = (): React.JSX.Element => {
 
     checkState = false
     chgVisl()
-    setPost(undefined)
-    try {
-      document.querySelector('.rounded-md')?.remove()
-    } catch {
-      setPost(undefined)
-    }
-    document
-      .querySelector('body')
-      ?.style.setProperty('overflow', 'hidden scroll')
+    setPost(null)
+    document.body.style.overflow = 'auto'
     const extensionRoot = document.querySelector(
       '#extension-root'
     ) as HTMLElement
@@ -184,82 +113,70 @@ const App = (): React.JSX.Element => {
     document.title = exTitle
     count = 0
     history.back()
-  }, [chgVisl, exTitle])
+  }, [chgVisl])
 
-  window.onkeydown = (event: { keyCode: number }) => {
-    if (event.keyCode === 27) {
-      // esc키 눌렀을때
-      if (checkState) {
+  useEffect(() => {
+    const contextMenuHandler = (e: MouseEvent): void => {
+      if (!checkState && e.target) {
+        const target = e.target as HTMLElement
+        if (
+          classNames.some((className) => target.classList.contains(className))
+        ) {
+          e.preventDefault()
+          handleClick(target)
+        } else if (
+          target.parentElement &&
+          classNames.some((className) =>
+            target?.parentElement?.classList.contains(className)
+          )
+        ) {
+          e.preventDefault()
+          handleClick(target.parentElement)
+        }
+      }
+    }
+
+    const clickHandler = (e: MouseEvent): void => {
+      const target = e.target as HTMLElement
+      if (
+        checkState &&
+        (target.id === 'extension-root' || target.id === 'frame')
+      ) {
         exit()
       }
     }
-  }
+
+    document.addEventListener('contextmenu', contextMenuHandler)
+    document.addEventListener('click', clickHandler)
+
+    return () => {
+      document.removeEventListener('contextmenu', contextMenuHandler)
+      document.removeEventListener('click', clickHandler)
+    }
+  }, [handleClick, exit])
 
   useEffect(() => {
-    document.addEventListener('contextmenu', function (e) {
-      if (checkState) {
-        /* empty */
-      } else {
-        if (e.target != null) {
-          const target = e.target as HTMLElement
-          // console.log(target);
-          if (
-            classNames.some((className) => target.classList.contains(className))
-          ) {
-            e.preventDefault()
-            void handleClick(target)
-          } else if (target.parentElement != null) {
-            const parent = target.parentElement
-            if (
-              classNames.some((className) =>
-                parent.classList.contains(className)
-              )
-            ) {
-              e.preventDefault()
-              void handleClick(target)
-            } else if (target.parentElement?.parentElement != null) {
-              const parent = target.parentElement.parentElement
-              if (
-                classNames.some((className) =>
-                  parent.classList.contains(className)
-                )
-              ) {
-                e.preventDefault()
-                void handleClick(target)
-              } else {
-                checkState = false
-              }
-            }
-          }
-        }
+    const keyDownHandler = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape' && checkState) {
+        exit()
       }
-    })
+    }
 
-    document.addEventListener('click', function (e) {
-      const target = e.target as HTMLElement
-      if (checkState) {
-        if (target.id === 'extension-root' || target.id === 'frame') {
-          exit()
-        }
-      }
-    })
-  }, [])
+    window.addEventListener('keydown', keyDownHandler)
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler)
+    }
+  }, [exit])
 
-  try {
-    return (
-      <div className={visl} id={'frame'} style={{ marginBottom: '500px' }}>
-        {postHref !== '' && visl === 'block' && Boolean(post) ? (
-          <PreviewPage post={post} postHref={postHref}></PreviewPage>
-        ) : (
-          // eslint-disable-next-line @typescript-eslint/indent
-          <div></div>
-          // eslint-disable-next-line @typescript-eslint/indent
-        )}
-      </div>
-    )
-  } catch {
-    return <div className={visl}></div>
-  }
+  return (
+    <div className={visl} id={'frame'} style={{ marginBottom: '500px' }}>
+      {postHref !== '' && visl === 'block' && post ? (
+        <PreviewPage post={post} postHref={postHref}></PreviewPage>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  )
 }
 
 export default App
