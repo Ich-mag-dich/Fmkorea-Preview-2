@@ -1,7 +1,7 @@
 {
   "name": "Fmkorea preview - 에펨코리아 게시글 미리보기",
   "description": "창을 이동하지 않고 게시글을 미리 봅니다.",
-  "version": "2.0.11",
+  "version": "2.0.16",
   "manifest_version": 3,
   "action": {
     "default_popup": "index.html",
