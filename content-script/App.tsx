@@ -154,7 +154,16 @@ const App = (): React.JSX.Element => {
 
   const requestPost = async (posthref: string): Promise<string | undefined> => {
     try {
-      return await fetch(posthref).then(async (res) => {
+      return await fetch(posthref, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'text/html; charset=UTF-8',
+          Accept:
+            'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+      }).then(async (res) => {
         return await res.text()
       })
     } catch {
